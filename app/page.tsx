@@ -97,9 +97,8 @@ export default function Portfolio() {
 
   const loadSpotifyData = async () => {
     setSpotifyLoading(true)
-    setSpotifyExpanded(false) // Collapse widget
+    setSpotifyExpanded(false)
 
-    // Wait for collapse animation
     setTimeout(async () => {
       try {
         const data = await fetchSpotifyData()
@@ -113,7 +112,6 @@ export default function Portfolio() {
         console.error("Failed to load Spotify data:", error)
       } finally {
         setSpotifyLoading(false)
-        // Expand widget slowly after data loads
         setTimeout(() => {
           setSpotifyExpanded(true)
         }, 200)
@@ -126,11 +124,10 @@ export default function Portfolio() {
       loadRepos()
     }
     if (currentPage === "now") {
-      setSpotifyExpanded(true) // Ensure expanded on page load
+      setSpotifyExpanded(true)
     }
   }, [currentPage])
 
-  // Real-time progress bar animation
   useEffect(() => {
     if (currentTrack?.is_playing && currentTrack.progress_ms !== undefined) {
       const interval = setInterval(() => {
@@ -147,7 +144,7 @@ export default function Portfolio() {
     if (currentPage !== "featured" || repos.length === 0) return
 
     e.preventDefault()
-    const delta = e.deltaY > 0 ? 1 : -1 // One repo at a time
+    const delta = e.deltaY > 0 ? 1 : -1
     const maxScroll = Math.max(0, repos.length - REPOS_PER_PAGE)
     const newPosition = Math.max(0, Math.min(maxScroll, scrollPosition + delta))
 
@@ -167,7 +164,7 @@ export default function Portfolio() {
     const deltaY = touchStartY.current - touchY
 
     if (Math.abs(deltaY) > 80) {
-      const delta = deltaY > 0 ? 1 : -1 // One repo at a time
+      const delta = deltaY > 0 ? 1 : -1
       const maxScroll = Math.max(0, repos.length - REPOS_PER_PAGE)
       const newPosition = Math.max(0, Math.min(maxScroll, scrollPosition + delta))
 
@@ -215,12 +212,10 @@ export default function Portfolio() {
     <nav className="w-full bg-[#242424] py-2 border-b border-[#3a3a3a] fixed top-0 z-50">
       <div className="max-w-sm mx-auto px-4">
         <div className="flex justify-between items-center">
-          {/* Avatar */}
           <div className="w-8 h-8 rounded-full overflow-hidden">
             <Image src="/avatar.jpeg" alt="VRB" width={32} height={32} className="w-full h-full object-cover" />
           </div>
 
-          {/* Navigation Menu */}
           <div className="flex items-center space-x-1">
             <button
               onClick={() => navigateToPage("home")}
@@ -256,7 +251,6 @@ export default function Portfolio() {
             </button>
           </div>
 
-          {/* Email Icon with Tooltip */}
           <div className="relative">
             <button
               onMouseEnter={() => setShowEmailTooltip(true)}
@@ -285,10 +279,8 @@ export default function Portfolio() {
       exit="exit"
       variants={fadeIn}
       className="max-w-sm mx-auto px-4 flex flex-col justify-center min-h-screen pt-16"
-      style={{ minHeight: 'calc(100vh - 48px)' }} 
     >
       <div className="space-y-4">
-        {/* Main Header */}
         <div className="text-left">
           <h1 className="text-2xl kanit font-bold text-[#c9c9c9]">Vinith Reddy Banda</h1>
           <div className="flex items-center justify-start space-x-3 mt-1">
@@ -303,9 +295,7 @@ export default function Portfolio() {
           </div>
         </div>
 
-        {/* Profile and Social Section */}
         <div className="flex items-start space-x-4">
-          {/* Profile Image */}
           <div className="w-20 h-20 rounded-lg overflow-hidden border border-[#3a3a3a] flex-shrink-0">
             <Image
               src="/avatar.jpeg"
@@ -316,7 +306,6 @@ export default function Portfolio() {
             />
           </div>
 
-          {/* Social Links */}
           <div className="flex-1 space-y-2 pt-1">
             <Link
               href="https://github.com/vinithreddybanda"
@@ -342,7 +331,6 @@ export default function Portfolio() {
           </div>
         </div>
 
-        {/* GitHub Follow Button - Left Aligned */}
         <div className="flex justify-start">
           <Button
             size="sm"
@@ -358,7 +346,6 @@ export default function Portfolio() {
           </Button>
         </div>
 
-        {/* Bio Content */}
         <div className="space-y-3 text-[#c9c9c9] leading-relaxed text-sm kanit">
           <p>
             Final year IT student at <span className="text-[#00abda] font-medium">CBIT, Hyderabad</span>, building
@@ -389,7 +376,6 @@ export default function Portfolio() {
           </div>
         </div>
 
-        {/* Stats Card */}
         <div className="bg-[#2a2a2a] rounded-md p-3 border border-[#3a3a3a]">
           <div className="grid grid-cols-4 gap-2 text-left">
             <div>
@@ -619,8 +605,6 @@ export default function Portfolio() {
   const renderFeaturedPage = () => {
     const visibleRepos = repos.slice(scrollPosition, scrollPosition + REPOS_PER_PAGE)
     const remainingRepos = Math.max(0, repos.length - scrollPosition - REPOS_PER_PAGE)
-
-    // Calculate visible dots (sliding window of 5 dots)
     const totalPages = Math.ceil(repos.length / REPOS_PER_PAGE)
     const currentPageIndex = Math.floor(scrollPosition / REPOS_PER_PAGE)
     const startDot = Math.max(0, Math.min(currentPageIndex - 2, totalPages - 5))
@@ -660,6 +644,13 @@ export default function Portfolio() {
             </div>
           ) : visibleRepos.length > 0 ? (
             <>
+              {/* Scroll indicator at top */}
+              {scrollPosition > 0 && (
+                <div className="flex justify-center py-1">
+                  <div className="text-xs text-[#555555] kanit">↑ Scroll up for more ↑</div>
+                </div>
+              )}
+
               <div className="space-y-2">
                 <AnimatePresence mode="wait">
                   {visibleRepos.map((repo, index) => (
@@ -675,7 +666,6 @@ export default function Portfolio() {
                       transition={{ duration: 0.6, ease: "easeInOut" }}
                       className="bg-[#2a2a2a] border border-[#3a3a3a] rounded-lg p-3 hover:border-[#ffe895] transition-all duration-300 hover:bg-[#2d2d2d]"
                     >
-                      {/* Header */}
                       <div className="flex items-start justify-between mb-2">
                         <Link
                           href={repo.html_url}
@@ -691,7 +681,6 @@ export default function Portfolio() {
                         </div>
                       </div>
 
-                      {/* Language and Description */}
                       <div className="mb-2">
                         {repo.language && (
                           <div className="flex items-center mb-1">
@@ -704,7 +693,6 @@ export default function Portfolio() {
                         </p>
                       </div>
 
-                      {/* Topics */}
                       {repo.topics && repo.topics.length > 0 && (
                         <div className="flex flex-wrap gap-1 mb-2">
                           {repo.topics.slice(0, 3).map((topic: string) => (
@@ -718,7 +706,6 @@ export default function Portfolio() {
                         </div>
                       )}
 
-                      {/* Footer */}
                       <div className="flex items-center justify-between text-xs text-[#888888] pt-2 border-t border-[#3a3a3a]">
                         <span>{formatTimeAgo(repo.pushed_at)}</span>
                         <Link
@@ -735,7 +722,14 @@ export default function Portfolio() {
                 </AnimatePresence>
               </div>
 
-              {/* Interactive Navigation Dots */}
+              {/* Scroll indicator at bottom */}
+              {remainingRepos > 0 && (
+                <div className="flex justify-center py-1">
+                  <div className="text-xs text-[#555555] kanit">↓ Scroll down for more ↓</div>
+                </div>
+              )}
+
+              {/* Navigation Dots */}
               <div className="flex items-center justify-between pt-2">
                 <div className="flex items-center space-x-1">
                   {visibleDots.map((pageIndex) => (
@@ -756,15 +750,6 @@ export default function Portfolio() {
                   {scrollPosition + 1}-{Math.min(scrollPosition + REPOS_PER_PAGE, repos.length)} of {repos.length}
                 </div>
               </div>
-
-              {remainingRepos > 0 && (
-                <div className="flex items-center justify-center pt-1">
-                  <div className="flex items-center space-x-1 text-xs text-[#555555] kanit">
-                    <span>Scroll for {remainingRepos} more</span>
-                    <div className="w-1 h-1 bg-[#555555] rounded-full animate-pulse"></div>
-                  </div>
-                </div>
-              )}
             </>
           ) : (
             <div className="flex items-center justify-center py-8">
