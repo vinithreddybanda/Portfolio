@@ -17,6 +17,7 @@ async function getAccessToken() {
       grant_type: "refresh_token",
       refresh_token: refresh_token!,
     }),
+    cache: "no-store", // ✅ prevent caching of token refresh
   })
 
   const data = await response.json()
@@ -27,18 +28,18 @@ export async function GET() {
   try {
     const access_token = await getAccessToken()
 
-    // Try to get currently playing track
     const currentlyPlayingResponse = await fetch("https://api.spotify.com/v1/me/player/currently-playing", {
       headers: {
         Authorization: `Bearer ${access_token}`,
       },
+      cache: "no-store", // ✅ always fetch latest
     })
 
     if (currentlyPlayingResponse.status === 200) {
       const currentlyPlaying = await currentlyPlayingResponse.json()
 
       if (currentlyPlaying && currentlyPlaying.item) {
-        return NextResponse.json({
+        const res = NextResponse.json({
           name: currentlyPlaying.item.name,
           artists: currentlyPlaying.item.artists,
           album: currentlyPlaying.item.album,
@@ -46,14 +47,21 @@ export async function GET() {
           progress_ms: currentlyPlaying.progress_ms,
           is_playing: currentlyPlaying.is_playing,
         })
+
+        // 🔒 prevent response from being cached
+        res.headers.set("Cache-Control", "no-store, no-cache, must-revalidate, proxy-revalidate")
+        res.headers.set("Pragma", "no-cache")
+        res.headers.set("Expires", "0")
+        res.headers.set("Surrogate-Control", "no-store")
+        return res
       }
     }
 
-    // If nothing is currently playing, get recently played
     const recentlyPlayedResponse = await fetch("https://api.spotify.com/v1/me/player/recently-played?limit=1", {
       headers: {
         Authorization: `Bearer ${access_token}`,
       },
+      cache: "no-store", // ✅ always fetch latest
     })
 
     if (recentlyPlayedResponse.ok) {
@@ -61,13 +69,19 @@ export async function GET() {
 
       if (recentlyPlayed.items && recentlyPlayed.items.length > 0) {
         const track = recentlyPlayed.items[0].track
-        return NextResponse.json({
+        const res = NextResponse.json({
           name: track.name,
           artists: track.artists,
           album: track.album,
           duration_ms: track.duration_ms,
           is_playing: false,
         })
+
+        res.headers.set("Cache-Control", "no-store, no-cache, must-revalidate, proxy-revalidate")
+        res.headers.set("Pragma", "no-cache")
+        res.headers.set("Expires", "0")
+        res.headers.set("Surrogate-Control", "no-store")
+        return res
       }
     }
 
