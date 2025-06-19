@@ -285,6 +285,7 @@ export default function Portfolio() {
       exit="exit"
       variants={fadeIn}
       className="max-w-sm mx-auto px-4 flex flex-col justify-center min-h-screen pt-16"
+      style={{ minHeight: 'calc(100vh - 48px)' }} 
     >
       <div className="space-y-4">
         {/* Main Header */}
