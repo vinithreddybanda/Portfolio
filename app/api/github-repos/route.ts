@@ -7,7 +7,7 @@ export async function GET() {
         Authorization: `token ${process.env.GITHUB_TOKEN}`,
         Accept: "application/vnd.github.v3+json",
       },
-      next: { revalidate: 300 }, // Cache for 5 minutes
+      cache: "no-store", // ✅ Disable all caching
     })
 
     if (!response.ok) {
@@ -20,14 +20,19 @@ export async function GET() {
     const filteredRepos = repos
       .filter((repo: any) => !repo.fork && !repo.private)
       .sort((a: any, b: any) => {
-        // Sort by stars first, then by recent activity
         if (b.stargazers_count !== a.stargazers_count) {
           return b.stargazers_count - a.stargazers_count
         }
         return new Date(b.pushed_at).getTime() - new Date(a.pushed_at).getTime()
       })
 
-    return NextResponse.json(filteredRepos)
+    const res = NextResponse.json(filteredRepos)
+    res.headers.set("Cache-Control", "no-store, no-cache, must-revalidate, proxy-revalidate")
+    res.headers.set("Pragma", "no-cache")
+    res.headers.set("Expires", "0")
+    res.headers.set("Surrogate-Control", "no-store")
+    return res
+
   } catch (error) {
     console.error("Error fetching GitHub repos:", error)
     return NextResponse.json({ error: "Failed to fetch repositories" }, { status: 500 })
