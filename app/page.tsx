@@ -52,6 +52,7 @@ export default function Portfolio() {
   const [trackProgress, setTrackProgress] = useState(0)
   const [spotifyLoading, setSpotifyLoading] = useState(false)
   const [showEmailTooltip, setShowEmailTooltip] = useState(false)
+  const [spotifyExpanded, setSpotifyExpanded] = useState(true)
   const scrollContainerRef = useRef<HTMLDivElement>(null)
   const touchStartY = useRef<number>(0)
 
@@ -96,24 +97,36 @@ export default function Portfolio() {
 
   const loadSpotifyData = async () => {
     setSpotifyLoading(true)
-    try {
-      const data = await fetchSpotifyData()
-      if (data) {
-        setCurrentTrack(data)
-        if (data.is_playing && data.progress_ms) {
-          setTrackProgress(data.progress_ms)
+    setSpotifyExpanded(false) // Collapse widget
+
+    // Wait for collapse animation
+    setTimeout(async () => {
+      try {
+        const data = await fetchSpotifyData()
+        if (data) {
+          setCurrentTrack(data)
+          if (data.is_playing && data.progress_ms) {
+            setTrackProgress(data.progress_ms)
+          }
         }
+      } catch (error) {
+        console.error("Failed to load Spotify data:", error)
+      } finally {
+        setSpotifyLoading(false)
+        // Expand widget slowly after data loads
+        setTimeout(() => {
+          setSpotifyExpanded(true)
+        }, 200)
       }
-    } catch (error) {
-      console.error("Failed to load Spotify data:", error)
-    } finally {
-      setSpotifyLoading(false)
-    }
+    }, 300)
   }
 
   useEffect(() => {
     if (currentPage === "featured") {
       loadRepos()
+    }
+    if (currentPage === "now") {
+      setSpotifyExpanded(true) // Ensure expanded on page load
     }
   }, [currentPage])
 
@@ -134,7 +147,7 @@ export default function Portfolio() {
     if (currentPage !== "featured" || repos.length === 0) return
 
     e.preventDefault()
-    const delta = e.deltaY > 0 ? 1 : -1
+    const delta = e.deltaY > 0 ? 1 : -1 // One repo at a time
     const maxScroll = Math.max(0, repos.length - REPOS_PER_PAGE)
     const newPosition = Math.max(0, Math.min(maxScroll, scrollPosition + delta))
 
@@ -153,8 +166,8 @@ export default function Portfolio() {
     const touchY = e.touches[0].clientY
     const deltaY = touchStartY.current - touchY
 
-    if (Math.abs(deltaY) > 50) {
-      const delta = deltaY > 0 ? 1 : -1
+    if (Math.abs(deltaY) > 80) {
+      const delta = deltaY > 0 ? 1 : -1 // One repo at a time
       const maxScroll = Math.max(0, repos.length - REPOS_PER_PAGE)
       const newPosition = Math.max(0, Math.min(maxScroll, scrollPosition + delta))
 
@@ -170,6 +183,12 @@ export default function Portfolio() {
     if (page === "featured") {
       setScrollPosition(0)
     }
+  }
+
+  const navigateToRepo = (index: number) => {
+    const maxScroll = Math.max(0, repos.length - REPOS_PER_PAGE)
+    const newPosition = Math.max(0, Math.min(maxScroll, index))
+    setScrollPosition(newPosition)
   }
 
   const formatTimeAgo = (dateString: string) => {
@@ -193,7 +212,7 @@ export default function Portfolio() {
   }
 
   const renderNavigation = () => (
-    <nav className="w-full bg-[#242424] py-2 border-b border-[#3a3a3a]">
+    <nav className="w-full bg-[#242424] py-2 border-b border-[#3a3a3a] fixed top-0 z-50">
       <div className="max-w-sm mx-auto px-4">
         <div className="flex justify-between items-center">
           {/* Avatar */}
@@ -242,7 +261,7 @@ export default function Portfolio() {
             <button
               onMouseEnter={() => setShowEmailTooltip(true)}
               onMouseLeave={() => setShowEmailTooltip(false)}
-              className="text-[#c9c9c9] hover:text-[#ffe895] transition-colors"
+              className="text-[#c9c9c9] hover:text-[#ffe895] transition-colors retro-button-3d w-6 h-6 flex items-center justify-center"
             >
               <Mail className="h-4 w-4" />
             </button>
@@ -265,7 +284,7 @@ export default function Portfolio() {
       animate="animate"
       exit="exit"
       variants={fadeIn}
-      className="max-w-sm mx-auto px-4 h-full flex flex-col justify-center"
+      className="max-w-sm mx-auto px-4 flex flex-col justify-center min-h-screen pt-16"
     >
       <div className="space-y-4">
         {/* Main Header */}
@@ -401,7 +420,7 @@ export default function Portfolio() {
       animate="animate"
       exit="exit"
       variants={fadeIn}
-      className="max-w-sm mx-auto px-4 h-full flex flex-col justify-center"
+      className="max-w-sm mx-auto px-4 flex flex-col justify-center min-h-screen pt-16"
     >
       <div className="space-y-4">
         <h1 className="text-xl kanit font-bold text-[#c9c9c9] text-left">About</h1>
@@ -452,74 +471,95 @@ export default function Portfolio() {
       currentTrack && currentTrack.duration_ms > 0 ? (trackProgress / currentTrack.duration_ms) * 100 : 0
 
     return (
-      <div className="bg-[#2a2a2a] border border-[#3a3a3a] rounded-md p-3">
-        <div className="flex items-center justify-between mb-2">
-          <div className="flex items-center space-x-2">
-            <div className="w-4 h-4 bg-[#1db954] rounded-full flex items-center justify-center">
-              {currentTrack?.is_playing ? (
-                <Play className="h-2 w-2 text-white fill-white" />
-              ) : currentTrack ? (
-                <Pause className="h-2 w-2 text-white" />
-              ) : (
-                <Music className="h-2 w-2 text-white" />
-              )}
-            </div>
-            <span className="text-[#ffe895] font-bold text-xs kanit">
-              {currentTrack?.is_playing ? "Now Playing" : currentTrack ? "Last Played" : "Spotify"}
-            </span>
-          </div>
-          <button
-            onClick={loadSpotifyData}
-            disabled={spotifyLoading}
-            className={`p-1 rounded transition-colors retro-button-3d ${
-              spotifyLoading ? "text-[#555555] cursor-not-allowed" : "text-[#c9c9c9] hover:text-[#ffe895]"
-            }`}
-            title="Refresh Spotify"
-          >
-            <RefreshCw className={`h-3 w-3 ${spotifyLoading ? "animate-spin" : ""}`} />
-          </button>
-        </div>
-
-        {currentTrack ? (
-          <div className="flex items-start space-x-3">
-            {currentTrack.album.images[0] && (
-              <div className="w-12 h-12 rounded-md overflow-hidden flex-shrink-0">
-                <Image
-                  src={currentTrack.album.images[0].url || "/placeholder.svg"}
-                  alt={currentTrack.album.name}
-                  width={48}
-                  height={48}
-                  className="w-full h-full object-cover"
-                />
+      <motion.div
+        initial={{ height: "auto", opacity: 1 }}
+        animate={{
+          height: spotifyExpanded ? "auto" : "60px",
+          opacity: spotifyExpanded ? 1 : 0.7,
+        }}
+        transition={{ duration: 0.6, ease: "easeInOut" }}
+        className="bg-[#2a2a2a] border border-[#3a3a3a] rounded-md overflow-hidden"
+      >
+        <div className="p-3">
+          <div className="flex items-center justify-between mb-2">
+            <div className="flex items-center space-x-2">
+              <div className="w-4 h-4 bg-[#1db954] rounded-full flex items-center justify-center">
+                {currentTrack?.is_playing ? (
+                  <Play className="h-2 w-2 text-white fill-white" />
+                ) : currentTrack ? (
+                  <Pause className="h-2 w-2 text-white" />
+                ) : (
+                  <Music className="h-2 w-2 text-white" />
+                )}
               </div>
+              <span className="text-[#ffe895] font-bold text-xs kanit">
+                {currentTrack?.is_playing ? "Now Playing" : currentTrack ? "Last Played" : "Spotify"}
+              </span>
+            </div>
+            <button
+              onClick={loadSpotifyData}
+              disabled={spotifyLoading}
+              className={`retro-button-3d w-6 h-6 flex items-center justify-center transition-colors ${
+                spotifyLoading ? "text-[#555555] cursor-not-allowed" : "text-[#c9c9c9] hover:text-[#ffe895]"
+              }`}
+              title="Refresh Spotify"
+            >
+              <RefreshCw className={`h-3 w-3 ${spotifyLoading ? "animate-spin" : ""}`} />
+            </button>
+          </div>
+
+          <AnimatePresence>
+            {spotifyExpanded && (
+              <motion.div
+                initial={{ opacity: 0, y: -10 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -10 }}
+                transition={{ duration: 0.4, delay: 0.2 }}
+              >
+                {currentTrack ? (
+                  <div className="flex items-start space-x-3">
+                    {currentTrack.album.images[0] && (
+                      <div className="w-12 h-12 rounded-md overflow-hidden flex-shrink-0">
+                        <Image
+                          src={currentTrack.album.images[0].url || "/placeholder.svg"}
+                          alt={currentTrack.album.name}
+                          width={48}
+                          height={48}
+                          className="w-full h-full object-cover"
+                        />
+                      </div>
+                    )}
+
+                    <div className="flex-1 min-w-0">
+                      <div className="font-medium text-[#c9c9c9] text-sm kanit truncate">{currentTrack.name}</div>
+                      <div className="text-[#888888] text-xs kanit truncate">
+                        {currentTrack.artists.map((artist) => artist.name).join(", ")}
+                      </div>
+
+                      {currentTrack.is_playing && (
+                        <div className="mt-2">
+                          <div className="flex items-center justify-between text-xs text-[#888888] mb-1">
+                            <span>{formatDuration(trackProgress)}</span>
+                            <span>{formatDuration(currentTrack.duration_ms)}</span>
+                          </div>
+                          <div className="w-full bg-[#3a3a3a] rounded-full h-1">
+                            <div
+                              className="bg-[#1db954] h-1 rounded-full transition-all duration-1000 ease-linear"
+                              style={{ width: `${progressPercentage}%` }}
+                            />
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                ) : (
+                  <div className="text-[#888888] text-xs kanit text-center py-2">Click refresh to load your music</div>
+                )}
+              </motion.div>
             )}
-
-            <div className="flex-1 min-w-0">
-              <div className="font-medium text-[#c9c9c9] text-sm kanit truncate">{currentTrack.name}</div>
-              <div className="text-[#888888] text-xs kanit truncate">
-                {currentTrack.artists.map((artist) => artist.name).join(", ")}
-              </div>
-
-              {currentTrack.is_playing && (
-                <div className="mt-2">
-                  <div className="flex items-center justify-between text-xs text-[#888888] mb-1">
-                    <span>{formatDuration(trackProgress)}</span>
-                    <span>{formatDuration(currentTrack.duration_ms)}</span>
-                  </div>
-                  <div className="w-full bg-[#3a3a3a] rounded-full h-1">
-                    <div
-                      className="bg-[#1db954] h-1 rounded-full transition-all duration-1000 ease-linear"
-                      style={{ width: `${progressPercentage}%` }}
-                    />
-                  </div>
-                </div>
-              )}
-            </div>
-          </div>
-        ) : (
-          <div className="text-[#888888] text-xs kanit text-center py-2">Click refresh to load your music</div>
-        )}
-      </div>
+          </AnimatePresence>
+        </div>
+      </motion.div>
     )
   }
 
@@ -530,7 +570,7 @@ export default function Portfolio() {
       animate="animate"
       exit="exit"
       variants={fadeIn}
-      className="max-w-sm mx-auto px-4 h-full flex flex-col justify-center"
+      className="max-w-sm mx-auto px-4 flex flex-col justify-center min-h-screen pt-16"
     >
       <div className="space-y-4">
         <h1 className="text-xl kanit font-bold text-[#c9c9c9] text-left">Now</h1>
@@ -579,6 +619,13 @@ export default function Portfolio() {
     const visibleRepos = repos.slice(scrollPosition, scrollPosition + REPOS_PER_PAGE)
     const remainingRepos = Math.max(0, repos.length - scrollPosition - REPOS_PER_PAGE)
 
+    // Calculate visible dots (sliding window of 5 dots)
+    const totalPages = Math.ceil(repos.length / REPOS_PER_PAGE)
+    const currentPageIndex = Math.floor(scrollPosition / REPOS_PER_PAGE)
+    const startDot = Math.max(0, Math.min(currentPageIndex - 2, totalPages - 5))
+    const endDot = Math.min(totalPages, startDot + 5)
+    const visibleDots = Array.from({ length: endDot - startDot }, (_, i) => startDot + i)
+
     return (
       <motion.div
         key="featured"
@@ -586,7 +633,7 @@ export default function Portfolio() {
         animate="animate"
         exit="exit"
         variants={fadeIn}
-        className="max-w-sm mx-auto px-4 h-full flex flex-col justify-center"
+        className="max-w-sm mx-auto px-4 min-h-screen pt-20 pb-4"
         onWheel={handleScroll}
         onTouchStart={handleTouchStart}
         onTouchMove={handleTouchMove}
@@ -597,7 +644,7 @@ export default function Portfolio() {
             <button
               onClick={loadRepos}
               disabled={loading}
-              className={`p-1 rounded transition-colors retro-button-3d ${
+              className={`retro-button-3d w-6 h-6 flex items-center justify-center transition-colors ${
                 loading ? "text-[#555555] cursor-not-allowed" : "text-[#c9c9c9] hover:text-[#ffe895]"
               }`}
               title="Refresh repositories"
@@ -616,14 +663,14 @@ export default function Portfolio() {
                 <AnimatePresence mode="wait">
                   {visibleRepos.map((repo, index) => (
                     <motion.div
-                      key={`${scrollPosition}-${repo.name}`}
-                      initial={{ opacity: 0, y: 20 }}
+                      key={`${repo.name}-${scrollPosition + index}`}
+                      initial={{ opacity: 0, x: index === 0 ? -50 : 50 }}
                       animate={{
                         opacity: 1,
-                        y: 0,
+                        x: 0,
                         transition: { delay: index * 0.1, duration: 0.6 },
                       }}
-                      exit={{ opacity: 0, y: -20 }}
+                      exit={{ opacity: 0, x: index === 0 ? -50 : 50 }}
                       transition={{ duration: 0.6, ease: "easeInOut" }}
                       className="bg-[#2a2a2a] border border-[#3a3a3a] rounded-lg p-3 hover:border-[#ffe895] transition-all duration-300 hover:bg-[#2d2d2d]"
                     >
@@ -687,17 +734,22 @@ export default function Portfolio() {
                 </AnimatePresence>
               </div>
 
-              {/* Navigation */}
+              {/* Interactive Navigation Dots */}
               <div className="flex items-center justify-between pt-2">
                 <div className="flex items-center space-x-1">
-                  {Array.from({ length: Math.ceil(repos.length / REPOS_PER_PAGE) }).map((_, index) => (
-                    <div
-                      key={index}
-                      className={`w-1 h-1 rounded-full transition-all duration-300 ${
-                        Math.floor(scrollPosition / REPOS_PER_PAGE) === index ? "bg-[#ffe895] w-3" : "bg-[#3a3a3a]"
+                  {visibleDots.map((pageIndex) => (
+                    <button
+                      key={pageIndex}
+                      onClick={() => navigateToRepo(pageIndex * REPOS_PER_PAGE)}
+                      className={`transition-all duration-300 retro-button-3d ${
+                        pageIndex === currentPageIndex
+                          ? "bg-[#ffe895] w-3 h-2 rounded-full"
+                          : "bg-[#3a3a3a] hover:bg-[#4a4a4a] w-2 h-2 rounded-full"
                       }`}
+                      title={`Go to page ${pageIndex + 1}`}
                     />
                   ))}
+                  {endDot < totalPages && <span className="text-[#555555] text-xs kanit">...</span>}
                 </div>
                 <div className="text-xs text-[#888888] kanit">
                   {scrollPosition + 1}-{Math.min(scrollPosition + REPOS_PER_PAGE, repos.length)} of {repos.length}
