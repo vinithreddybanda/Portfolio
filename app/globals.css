@@ -1,0 +1,116 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html {
+  background: #242424;
+  font-family: "Kanit", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 400;
+  font-style: normal;
+  scroll-behavior: smooth;
+}
+
+body {
+  background: #242424;
+  color: #c9c9c9;
+  font-family: "Kanit", sans-serif;
+  font-weight: 400;
+}
+
+.kanit {
+  font-family: "Kanit", sans-serif !important;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  -webkit-font-smoothing: antialiased;
+  color: #c9c9c9;
+}
+
+@layer base {
+  :root {
+    --background: #242424;
+    --foreground: #c9c9c9;
+    --card: #2a2a2a;
+    --card-foreground: #c9c9c9;
+    --popover: #2a2a2a;
+    --popover-foreground: #c9c9c9;
+    --primary: #ffe895;
+    --primary-foreground: #242424;
+    --secondary: #3a3a3a;
+    --secondary-foreground: #c9c9c9;
+    --muted: #3a3a3a;
+    --muted-foreground: #888888;
+    --accent: #3a3a3a;
+    --accent-foreground: #c9c9c9;
+    --destructive: #ef4444;
+    --destructive-foreground: #c9c9c9;
+    --border: #3a3a3a;
+    --input: #3a3a3a;
+    --ring: #ffe895;
+    --radius: 0.5rem;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+    background: #242424;
+    color: #c9c9c9;
+    font-family: "Kanit", sans-serif;
+    font-weight: 400;
+  }
+}
+
+/* 3D Retro Navigation Buttons */
+.retro-button-3d {
+  background: linear-gradient(145deg, #3a3a3a, #1a1a1a);
+  border: 1px solid #4a4a4a;
+  border-radius: 6px;
+  color: #c9c9c9;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.6), -1px -1px 2px rgba(255, 255, 255, 0.05), inset 1px 1px 2px
+    rgba(255, 255, 255, 0.1);
+  position: relative;
+  transform: translateY(0);
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
+  min-width: 45px;
+}
+
+.retro-button-3d:hover {
+  background: linear-gradient(145deg, #4a4a4a, #2a2a2a);
+  color: #ffe895;
+  transform: translateY(-1px);
+  box-shadow: 3px 3px 6px rgba(0, 0, 0, 0.7), -1px -1px 3px rgba(255, 255, 255, 0.08), inset 1px 1px 3px
+    rgba(255, 255, 255, 0.15);
+  border-color: #5a5a5a;
+}
+
+.retro-button-3d:active {
+  transform: translateY(1px);
+  box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8), -1px -1px 1px rgba(255, 255, 255, 0.03), inset 2px 2px 4px
+    rgba(0, 0, 0, 0.3);
+}
+
+.retro-button-active {
+  background: linear-gradient(145deg, #ffe895, #e6d085);
+  color: #242424 !important;
+  border-color: #ffed9f;
+  box-shadow: inset 2px 2px 4px rgba(0, 0, 0, 0.2), inset -1px -1px 2px rgba(255, 255, 255, 0.4), 1px 1px 2px
+    rgba(0, 0, 0, 0.4);
+  transform: translateY(1px);
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+.retro-button-active:hover {
+  background: linear-gradient(145deg, #ffe895, #e6d085);
+  color: #242424 !important;
+  transform: translateY(1px);
+}
