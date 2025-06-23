@@ -1,11 +1,11 @@
 "use client"
 
 import { motion, AnimatePresence } from "framer-motion"
-<<<<<<< HEAD
+
 import { Github, Linkedin, Mail, Twitter, Download, RefreshCw, ChevronDown, X } from "lucide-react"
-=======
+
 import { Github, Linkedin, Mail, Twitter, Download, RefreshCw, Play, Pause, Music } from "lucide-react"
->>>>>>> 9331db9f3bf45e3a61b1c2769017e36490507a72
+
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import Link from "next/link"
@@ -16,7 +16,7 @@ const fadeIn = {
   initial: { opacity: 0 },
   animate: { opacity: 1 },
   exit: { opacity: 0 },
-<<<<<<< HEAD
+
   transition: { duration: 0.4 },
 }
 
@@ -30,9 +30,9 @@ const slideDown = {
   initial: { opacity: 0, y: -30 },
   animate: { opacity: 1, y: 0 },
   transition: { duration: 0.6, ease: "easeInOut" },
-=======
+
   transition: { duration: 0.5 },
->>>>>>> 9331db9f3bf45e3a61b1c2769017e36490507a72
+
 }
 
 type Page = "home" | "about" | "now" | "featured"
@@ -66,12 +66,10 @@ export default function Portfolio() {
     totalCommits: 0,
   })
   const [loading, setLoading] = useState(false)
-<<<<<<< HEAD
   const [currentRepoPage, setCurrentRepoPage] = useState(0)
   const [showEmailTooltip, setShowEmailTooltip] = useState(false)
   const [showInsightModal, setShowInsightModal] = useState(false)
   const [insightLoading, setInsightLoading] = useState(false)
-=======
   const [scrollPosition, setScrollPosition] = useState(0)
   const [currentTrack, setCurrentTrack] = useState<SpotifyTrack | null>(null)
   const [trackProgress, setTrackProgress] = useState(0)
@@ -80,7 +78,7 @@ export default function Portfolio() {
   const [spotifyExpanded, setSpotifyExpanded] = useState(true)
   const scrollContainerRef = useRef<HTMLDivElement>(null)
   const touchStartY = useRef<number>(0)
->>>>>>> 9331db9f3bf45e3a61b1c2769017e36490507a72
+
 
   const REPOS_PER_PAGE = 4
 
@@ -109,18 +107,6 @@ export default function Portfolio() {
     try {
       const repoData = await fetchGitHubRepos()
       setRepos(repoData)
-<<<<<<< HEAD
-      setGithubStats(calculateGitHubStats(repoData))
-      setCurrentRepoPage(0)
-    } catch (error) {
-      console.error("Failed to fetch repos:", error)
-    }
-  }
-
-  useEffect(() => {
-    loadRepos()
-  }, [])
-=======
       setScrollPosition(0)
     } catch (error) {
       console.error("Failed to fetch repos:", error)
@@ -208,16 +194,11 @@ export default function Portfolio() {
       }
     }
   }
->>>>>>> 9331db9f3bf45e3a61b1c2769017e36490507a72
 
   const navigateToPage = (page: Page) => {
     setCurrentPage(page)
     if (page === "featured") {
-<<<<<<< HEAD
-      setCurrentRepoPage(0)
-=======
       setScrollPosition(0)
->>>>>>> 9331db9f3bf45e3a61b1c2769017e36490507a72
     }
   }
 
@@ -250,50 +231,6 @@ export default function Portfolio() {
     document.body.removeChild(link)
   }
 
-<<<<<<< HEAD
-  const handleEmailClick = () => {
-    window.location.href = "mailto:vinithreddybanda@gmail.com"
-  }
-
-  const skills = [
-    "C++",
-    "Java",
-    "Python",
-    "JavaScript",
-    "Node.js",
-    "Kotlin",
-    "HTML",
-    "CSS",
-    "Git",
-    "MongoDB",
-    "React",
-    "Express",
-    "Android",
-    "Linux",
-    "Docker",
-    "AWS",
-    "Firebase",
-    "MySQL",
-    "PostgreSQL",
-  ]
-
-  const renderNavigation = () => (
-    <nav className="w-full bg-[#1a1a1a] py-2 fixed top-0 z-50">
-      <div className="max-w-sm mx-auto px-3">
-        <div className="flex justify-between items-center">
-          <button
-            onClick={() => navigateToPage("home")}
-            className="w-8 h-8 rounded-full overflow-hidden border border-[#d4af37] hover:scale-105 transition-transform"
-          >
-            <Image
-              src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image-ZPnd6EFRVmibtwsl3BlAjEJe3V78Fu.png"
-              alt="VRB"
-              width={32}
-              height={32}
-              className="w-full h-full object-cover"
-            />
-          </button>
-=======
   const renderNavigation = () => (
     <nav className="w-full bg-[#242424] py-2 border-b border-[#3a3a3a] fixed top-0 z-50">
       <div className="max-w-sm mx-auto px-4">
@@ -301,7 +238,6 @@ export default function Portfolio() {
           <div className="w-8 h-8 rounded-full overflow-hidden">
             <Image src="/avatar.jpeg" alt="VRB" width={32} height={32} className="w-full h-full object-cover" />
           </div>
->>>>>>> 9331db9f3bf45e3a61b1c2769017e36490507a72
 
           <div className="flex items-center space-x-1">
             <button
@@ -340,21 +276,6 @@ export default function Portfolio() {
 
           <div className="relative">
             <button
-<<<<<<< HEAD
-              onClick={handleEmailClick}
-              onMouseEnter={() => setShowEmailTooltip(true)}
-              onMouseLeave={() => setShowEmailTooltip(false)}
-              className="text-[#ffffff] hover:text-[#d4af37] transition-colors retro-button-3d w-6 h-6 flex items-center justify-center"
-            >
-              <Mail className="h-3 w-3" />
-            </button>
-            {showEmailTooltip && (
-              <div className="absolute right-0 top-8 bg-[#1f1f1f] border border-[#2f2f2f] rounded-md p-2 text-xs poppins whitespace-nowrap z-50">
-                <div className="text-[#ffffff] mb-1 text-xs">contact@vinithreddybanda.me</div>
-                <div className="text-[#ffffff] text-xs cursor-pointer hover:text-[#d4af37]" onClick={handleEmailClick}>
-                  vinithreddybanda@gmail.com
-                </div>
-=======
               onMouseEnter={() => setShowEmailTooltip(true)}
               onMouseLeave={() => setShowEmailTooltip(false)}
               className="text-[#c9c9c9] hover:text-[#ffe895] transition-colors retro-button-3d w-6 h-6 flex items-center justify-center"
@@ -365,7 +286,6 @@ export default function Portfolio() {
               <div className="absolute right-0 top-8 bg-[#1a1a1a] border border-[#3a3a3a] rounded-md p-2 text-xs kanit whitespace-nowrap z-50">
                 <div className="text-[#c9c9c9] mb-1">contact@vinithreddybanda.me</div>
                 <div className="text-[#c9c9c9]">vinithreddybanda@gmail.com</div>
->>>>>>> 9331db9f3bf45e3a61b1c2769017e36490507a72
               </div>
             )}
           </div>
@@ -381,11 +301,7 @@ export default function Portfolio() {
       animate="animate"
       exit="exit"
       variants={fadeIn}
-<<<<<<< HEAD
-      className="max-w-sm mx-auto px-3 flex flex-col justify-start min-h-screen pt-16 pb-4"
-=======
       className="max-w-sm mx-auto px-4 flex flex-col justify-center min-h-screen pt-16"
->>>>>>> 9331db9f3bf45e3a61b1c2769017e36490507a72
     >
       <div className="space-y-4">
         <div className="text-left">
@@ -395,14 +311,7 @@ export default function Portfolio() {
               <span className="text-[#d4af37] text-xs poppins font-medium">Seeking Internships</span>
               <div className="w-2 h-2 bg-[#00ff00] rounded-full pulse-dot"></div>
             </div>
-<<<<<<< HEAD
-            <button
-              onClick={handleResumeDownload}
-              className="flex items-center space-x-1 text-[#ffffff] hover:text-[#d4af37] transition-colors text-xs poppins retro-button-3d px-2 py-1"
-            >
-=======
             <button className="flex items-center space-x-1 text-[#c9c9c9] hover:text-[#ffe895] transition-colors text-sm kanit retro-button-3d px-2 py-1">
->>>>>>> 9331db9f3bf45e3a61b1c2769017e36490507a72
               <Download className="h-3 w-3" />
               <span>Resume</span>
             </button>
@@ -410,11 +319,7 @@ export default function Portfolio() {
         </div>
 
         <div className="flex items-start space-x-4">
-<<<<<<< HEAD
-          <div className="w-16 h-16 rounded-lg overflow-hidden border border-[#d4af37] flex-shrink-0">
-=======
           <div className="w-20 h-20 rounded-lg overflow-hidden border border-[#3a3a3a] flex-shrink-0">
->>>>>>> 9331db9f3bf45e3a61b1c2769017e36490507a72
             <Image
               src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image-ZPnd6EFRVmibtwsl3BlAjEJe3V78Fu.png"
               alt="Vinith Reddy Banda"
@@ -454,11 +359,7 @@ export default function Portfolio() {
             size="sm"
             variant="outline"
             asChild
-<<<<<<< HEAD
-            className="h-7 px-3 text-xs text-[#ffffff] poppins font-medium glow-button border-0"
-=======
             className="h-7 px-3 text-xs border-[#3a3a3a] hover:bg-[#2a2a2a] text-[#c9c9c9] kanit font-medium retro-button-3d"
->>>>>>> 9331db9f3bf45e3a61b1c2769017e36490507a72
           >
             <Link href="https://github.com/vinithreddybanda">
               <Github className="mr-1 h-3 w-3" />
@@ -468,11 +369,7 @@ export default function Portfolio() {
           </Button>
         </div>
 
-<<<<<<< HEAD
-        <div className="space-y-3 text-[#ffffff] leading-relaxed text-xs poppins">
-=======
         <div className="space-y-3 text-[#c9c9c9] leading-relaxed text-sm kanit">
->>>>>>> 9331db9f3bf45e3a61b1c2769017e36490507a72
           <p>
             Final year IT student at <span className="text-[#d4af37] font-medium">CBIT, Hyderabad</span>, building
             efficient tools and learning C++ DSA — currently seeking internship opportunities.
@@ -498,9 +395,6 @@ export default function Portfolio() {
             <span>☕</span>
             <span>👨‍💻</span>
             <span>=</span>
-<<<<<<< HEAD
-            <span className="text-[#d4af37] font-medium">@vinithreddybanda</span>
-=======
             <span className="text-[#00abda] font-medium">@vinithreddybanda</span>
           </div>
         </div>
@@ -523,7 +417,6 @@ export default function Portfolio() {
               <div className="kanit font-bold text-[#ffe895] text-sm">5+</div>
               <div className="text-xs text-[#c9c9c9] kanit text-left">Skills</div>
             </div>
->>>>>>> 9331db9f3bf45e3a61b1c2769017e36490507a72
           </div>
         </div>
       </div>
@@ -537,27 +430,6 @@ export default function Portfolio() {
       animate="animate"
       exit="exit"
       variants={fadeIn}
-<<<<<<< HEAD
-      className="max-w-sm mx-auto px-3 flex flex-col justify-start min-h-screen pt-16 pb-4"
-    >
-      <div className="space-y-4">
-        <h1 className="text-lg poppins-semibold text-[#ffffff] text-left">About</h1>
-
-        <p className="text-[#ffffff] leading-relaxed text-left text-xs poppins">
-          Final-year IT student at CBIT, Hyderabad with strong academic performance and passion for practical solutions.
-        </p>
-
-        <div className="enhanced-card p-3">
-          <h3 className="text-[#d4af37] poppins-medium mb-2 text-left text-sm">Education</h3>
-          <div className="space-y-1.5">
-            <div className="text-left">
-              <div className="font-medium text-[#ffffff] text-xs poppins">B.E Information Technology</div>
-              <div className="text-[#888888] text-xs poppins">CBIT, Hyderabad • CGPA: 8.10 • 2023-Present</div>
-            </div>
-            <div className="text-left">
-              <div className="font-medium text-[#ffffff] text-xs poppins">Diploma Computer Engineering</div>
-              <div className="text-[#888888] text-xs poppins">Govt. Polytechnic • CGPA: 9.74 • 2020-2023</div>
-=======
       className="max-w-sm mx-auto px-4 flex flex-col justify-center min-h-screen pt-16"
     >
       <div className="space-y-4">
@@ -579,43 +451,10 @@ export default function Portfolio() {
               <div className="font-medium text-[#c9c9c9]">Diploma Computer Engineering</div>
               <div className="text-[#888888] text-xs">Govt. Polytechnic • CGPA: 9.74</div>
               <div className="text-[#888888] text-xs">2020 - 2023</div>
->>>>>>> 9331db9f3bf45e3a61b1c2769017e36490507a72
             </div>
           </div>
         </div>
 
-<<<<<<< HEAD
-        <div className="enhanced-card p-3">
-          <h3 className="text-[#d4af37] poppins-medium mb-2 text-left text-sm">Skills</h3>
-          <div className="overflow-hidden">
-            <div className="flex space-x-2 skills-loop">
-              {skills.concat(skills).map((skill, index) => (
-                <Badge
-                  key={`${skill}-${index}`}
-                  className="bg-[#0f0f0f] text-[#ffffff] border border-[#d4af37] text-xs poppins whitespace-nowrap px-2 py-1 flex-shrink-0"
-                >
-                  {skill}
-                </Badge>
-              ))}
-            </div>
-          </div>
-        </div>
-
-        <div className="enhanced-card p-3">
-          <h3 className="text-[#d4af37] poppins-medium mb-2 text-left text-sm">GitHub Insights</h3>
-          <div className="w-full overflow-hidden rounded-md cursor-pointer" onClick={() => setShowInsightModal(true)}>
-            <Image
-              src="https://next.ossinsight.io/widgets/official/compose-user-dashboard-stats/thumbnail.png?user_id=116493221&image_size=auto&color_scheme=dark"
-              alt="GitHub Dashboard Stats"
-              width={300}
-              height={120}
-              className="w-full h-auto hover:opacity-80 transition-opacity"
-            />
-          </div>
-        </div>
-
-        <div className="text-xs text-[#888888] poppins text-left">Always learning, always building. 🚀</div>
-=======
         <div className="bg-[#2a2a2a] border border-[#3a3a3a] rounded-md p-3">
           <h3 className="text-[#ffe895] font-bold mb-2 text-left">Skills & Certifications</h3>
           <div className="grid grid-cols-3 gap-2 mb-3">
@@ -633,7 +472,6 @@ export default function Portfolio() {
         </div>
 
         <div className="text-xs text-[#888888] kanit text-left">Always learning, always building. 🚀</div>
->>>>>>> 9331db9f3bf45e3a61b1c2769017e36490507a72
       </div>
 
       {/* Modal for GitHub Insights */}
@@ -656,8 +494,6 @@ export default function Portfolio() {
     </motion.div>
   )
 
-<<<<<<< HEAD
-=======
   const renderSpotifyWidget = () => {
     const progressPercentage =
       currentTrack && currentTrack.duration_ms > 0 ? (trackProgress / currentTrack.duration_ms) * 100 : 0
@@ -755,7 +591,6 @@ export default function Portfolio() {
     )
   }
 
->>>>>>> 9331db9f3bf45e3a61b1c2769017e36490507a72
   const renderNowPage = () => (
     <motion.div
       key="now"
@@ -763,90 +598,6 @@ export default function Portfolio() {
       animate="animate"
       exit="exit"
       variants={fadeIn}
-<<<<<<< HEAD
-      className="max-w-sm mx-auto px-3 flex flex-col justify-start min-h-screen pt-16 pb-4"
-    >
-      <div className="space-y-4">
-        <h1 className="text-lg poppins-semibold text-[#ffffff] text-left">Now</h1>
-
-        <p className="text-[#ffffff] text-left leading-relaxed text-xs poppins">
-          <span className="font-bold">TL;DR:</span> Final year student actively seeking internships while mastering C++
-          DSA and building practical projects.
-        </p>
-
-        {/* Modern Grid Layout */}
-        <div className="grid grid-cols-1 gap-3">
-          {/* Currently Focused Card - Modern Design */}
-          <div className="modern-glass-card p-4 relative overflow-hidden">
-            <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-[#d4af37] via-[#f4d03f] to-[#d4af37]"></div>
-            <div className="flex items-center mb-3">
-              <div className="w-3 h-3 bg-[#d4af37] rounded-full mr-3 pulse-glow"></div>
-              <p className="poppins-medium text-[#ffffff] text-sm">Currently Focused On</p>
-            </div>
-            <div className="grid grid-cols-1 gap-2 text-xs poppins">
-              <div className="modern-list-item">
-                <span className="modern-bullet"></span>
-                <span>Mastering C++ Data Structures & Algorithms</span>
-              </div>
-              <div className="modern-list-item">
-                <span className="modern-bullet"></span>
-                <span>Building practical projects & tools</span>
-              </div>
-              <div className="modern-list-item">
-                <span className="modern-bullet"></span>
-                <span>Maintaining strong academic performance (CGPA: 8.10)</span>
-              </div>
-              <div className="modern-list-item">
-                <span className="modern-bullet"></span>
-                <span>Contributing to open-source projects</span>
-              </div>
-              <div className="modern-list-item">
-                <span className="modern-bullet"></span>
-                <span>Preparing for technical interviews</span>
-              </div>
-            </div>
-          </div>
-
-          {/* Seeking Opportunities Card - Modern Design */}
-          <div className="modern-glass-card p-4 relative overflow-hidden">
-            <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-[#00ff00] via-[#32ff32] to-[#00ff00]"></div>
-            <div className="flex items-center mb-3">
-              <div className="w-3 h-3 bg-[#00ff00] rounded-full mr-3 pulse-dot"></div>
-              <p className="poppins-medium text-[#ffffff] text-sm">Seeking Opportunities</p>
-            </div>
-            <div className="grid grid-cols-1 gap-2 text-xs poppins">
-              <div className="modern-list-item">
-                <span className="modern-bullet-green"></span>
-                <span>Software Engineering Internships</span>
-              </div>
-              <div className="modern-list-item">
-                <span className="modern-bullet-green"></span>
-                <span>Full-stack Development positions</span>
-              </div>
-              <div className="modern-list-item">
-                <span className="modern-bullet-green"></span>
-                <span>Backend Development with Node.js</span>
-              </div>
-              <div className="modern-list-item">
-                <span className="modern-bullet-green"></span>
-                <span>Mobile Development with Kotlin</span>
-              </div>
-              <div className="modern-list-item">
-                <span className="modern-bullet-green"></span>
-                <span>Open-source collaboration opportunities</span>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div className="modern-glass-card p-3">
-          <p className="text-xs text-[#a0a0a0] poppins text-left">
-            Inspired by Derek Sivers' /now movement - updated regularly to reflect current priorities and goals.
-          </p>
-        </div>
-
-        <div className="text-xs text-[#888888] poppins text-left">Last updated: January 2024</div>
-=======
       className="max-w-sm mx-auto px-4 flex flex-col justify-center min-h-screen pt-16"
     >
       <div className="space-y-4">
@@ -888,24 +639,11 @@ export default function Portfolio() {
         </div>
 
         <div className="text-xs text-[#888888] kanit text-left">Last updated: January 2024</div>
->>>>>>> 9331db9f3bf45e3a61b1c2769017e36490507a72
       </div>
     </motion.div>
   )
 
   const renderFeaturedPage = () => {
-<<<<<<< HEAD
-    const totalPages = Math.ceil(repos.length / REPOS_PER_PAGE)
-    const startIndex = currentRepoPage * REPOS_PER_PAGE
-    const visibleRepos = repos.slice(startIndex, startIndex + REPOS_PER_PAGE)
-    const canGoNext = currentRepoPage < totalPages - 1
-
-    const nextPage = () => {
-      if (canGoNext) {
-        setCurrentRepoPage((prev) => prev + 1)
-      }
-    }
-=======
     const visibleRepos = repos.slice(scrollPosition, scrollPosition + REPOS_PER_PAGE)
     const remainingRepos = Math.max(0, repos.length - scrollPosition - REPOS_PER_PAGE)
     const totalPages = Math.ceil(repos.length / REPOS_PER_PAGE)
@@ -913,7 +651,6 @@ export default function Portfolio() {
     const startDot = Math.max(0, Math.min(currentPageIndex - 2, totalPages - 5))
     const endDot = Math.min(totalPages, startDot + 5)
     const visibleDots = Array.from({ length: endDot - startDot }, (_, i) => startDot + i)
->>>>>>> 9331db9f3bf45e3a61b1c2769017e36490507a72
 
     return (
       <motion.div
@@ -922,13 +659,6 @@ export default function Portfolio() {
         animate="animate"
         exit="exit"
         variants={fadeIn}
-<<<<<<< HEAD
-        className="max-w-sm mx-auto px-3 min-h-screen pt-16 pb-4 relative"
-      >
-        <div className="space-y-4">
-          <div className="flex items-center justify-between">
-            <h1 className="text-lg poppins-semibold text-[#ffffff] text-left">Featured Work</h1>
-=======
         className="max-w-sm mx-auto px-4 min-h-screen pt-20 pb-4"
         onWheel={handleScroll}
         onTouchStart={handleTouchStart}
@@ -937,16 +667,11 @@ export default function Portfolio() {
         <div className="space-y-3">
           <div className="flex items-center justify-between">
             <h1 className="text-lg kanit font-bold text-[#c9c9c9] text-left">Featured Work</h1>
->>>>>>> 9331db9f3bf45e3a61b1c2769017e36490507a72
             <button
               onClick={loadRepos}
               disabled={loading}
               className={`retro-button-3d w-6 h-6 flex items-center justify-center transition-colors ${
-<<<<<<< HEAD
-                loading ? "text-[#555555] cursor-not-allowed" : "text-[#ffffff] hover:text-[#d4af37]"
-=======
                 loading ? "text-[#555555] cursor-not-allowed" : "text-[#c9c9c9] hover:text-[#ffe895]"
->>>>>>> 9331db9f3bf45e3a61b1c2769017e36490507a72
               }`}
               title="Refresh repositories"
             >
@@ -956,23 +681,6 @@ export default function Portfolio() {
 
           {loading ? (
             <div className="flex items-center justify-center py-8">
-<<<<<<< HEAD
-              <div className="text-[#888888] text-xs poppins">Loading repositories...</div>
-            </div>
-          ) : visibleRepos.length > 0 ? (
-            <>
-              <div className="space-y-3">
-                <AnimatePresence mode="wait">
-                  {visibleRepos.map((repo, index) => (
-                    <motion.div
-                      key={`${repo.name}-${currentRepoPage}-${index}`}
-                      initial="initial"
-                      animate="animate"
-                      exit="exit"
-                      variants={slideDown}
-                      transition={{ delay: index * 0.1 }}
-                      className="enhanced-card p-3"
-=======
               <div className="text-[#888888] text-sm kanit">Loading repositories...</div>
             </div>
           ) : visibleRepos.length > 0 ? (
@@ -998,34 +706,16 @@ export default function Portfolio() {
                       exit={{ opacity: 0, x: index === 0 ? -50 : 50 }}
                       transition={{ duration: 0.6, ease: "easeInOut" }}
                       className="bg-[#2a2a2a] border border-[#3a3a3a] rounded-lg p-3 hover:border-[#ffe895] transition-all duration-300 hover:bg-[#2d2d2d]"
->>>>>>> 9331db9f3bf45e3a61b1c2769017e36490507a72
                     >
                       <div className="flex items-start justify-between mb-2">
                         <Link
                           href={repo.html_url}
-<<<<<<< HEAD
-                          className="poppins font-semibold text-[#ffffff] text-sm text-left hover:text-[#d4af37] transition-colors flex-1 mr-2 truncate"
-=======
                           className="kanit font-bold text-[#c9c9c9] text-sm text-left hover:text-[#ffe895] transition-colors flex-1 mr-2 truncate"
->>>>>>> 9331db9f3bf45e3a61b1c2769017e36490507a72
                           target="_blank"
                           rel="noopener noreferrer"
                         >
                           {repo.name}
                         </Link>
-<<<<<<< HEAD
-                        {repo.language && (
-                          <div className="flex items-center">
-                            <div className="w-2 h-2 bg-[#d4af37] rounded-full mr-1.5"></div>
-                            <span className="text-[#888888] text-xs poppins">{repo.language}</span>
-                          </div>
-                        )}
-                      </div>
-
-                      <p className="text-[#ffffff] text-xs poppins leading-relaxed text-left line-clamp-2 mb-2">
-                        {repo.description || "No description available"}
-                      </p>
-=======
                         <div className="flex items-center space-x-2 text-xs flex-shrink-0">
                           <span className="text-[#ffe895]">⭐{repo.stargazers_count}</span>
                           <span className="text-[#888888]">🍴{repo.forks_count}</span>
@@ -1043,18 +733,13 @@ export default function Portfolio() {
                           {repo.description || "No description available"}
                         </p>
                       </div>
->>>>>>> 9331db9f3bf45e3a61b1c2769017e36490507a72
 
                       {repo.topics && repo.topics.length > 0 && (
                         <div className="flex flex-wrap gap-1 mb-2">
                           {repo.topics.slice(0, 3).map((topic: string) => (
                             <span
                               key={topic}
-<<<<<<< HEAD
-                              className="bg-[#0f0f0f] text-[#ffffff] text-xs poppins px-2 py-0.5 rounded-full border border-[#d4af37]"
-=======
                               className="bg-[#3a3a3a] text-[#c9c9c9] text-xs kanit px-2 py-0.5 rounded-full border border-[#4a4a4a]"
->>>>>>> 9331db9f3bf45e3a61b1c2769017e36490507a72
                             >
                               {topic}
                             </span>
@@ -1062,19 +747,11 @@ export default function Portfolio() {
                         </div>
                       )}
 
-<<<<<<< HEAD
-                      <div className="flex items-center justify-between text-xs text-[#888888]">
-                        <span className="poppins">{formatTimeAgo(repo.pushed_at)}</span>
-                        <Link
-                          href={repo.html_url}
-                          className="text-[#d4af37] hover:text-[#ffffff] transition-colors poppins"
-=======
                       <div className="flex items-center justify-between text-xs text-[#888888] pt-2 border-t border-[#3a3a3a]">
                         <span>{formatTimeAgo(repo.pushed_at)}</span>
                         <Link
                           href={repo.html_url}
                           className="text-[#ffe895] hover:text-[#ffed9f] transition-colors"
->>>>>>> 9331db9f3bf45e3a61b1c2769017e36490507a72
                           target="_blank"
                           rel="noopener noreferrer"
                         >
@@ -1086,18 +763,6 @@ export default function Portfolio() {
                 </AnimatePresence>
               </div>
 
-<<<<<<< HEAD
-              <div className="flex items-center justify-between text-xs text-[#888888] poppins pt-2">
-                <span>
-                  Page {currentRepoPage + 1} of {totalPages} • {startIndex + 1}-
-                  {Math.min(startIndex + REPOS_PER_PAGE, repos.length)} of {repos.length}
-                </span>
-                {canGoNext && (
-                  <button onClick={nextPage} className="scroll-button ml-2" title="Next page">
-                    <ChevronDown className="w-2.5 h-2.5 text-[#d4af37]" />
-                  </button>
-                )}
-=======
               {/* Scroll indicator at bottom */}
               {remainingRepos > 0 && (
                 <div className="flex justify-center py-1">
@@ -1125,16 +790,11 @@ export default function Portfolio() {
                 <div className="text-xs text-[#888888] kanit">
                   {scrollPosition + 1}-{Math.min(scrollPosition + REPOS_PER_PAGE, repos.length)} of {repos.length}
                 </div>
->>>>>>> 9331db9f3bf45e3a61b1c2769017e36490507a72
               </div>
             </>
           ) : (
             <div className="flex items-center justify-center py-8">
-<<<<<<< HEAD
-              <div className="text-[#888888] text-xs poppins">No repositories found</div>
-=======
               <div className="text-[#888888] text-sm kanit">No repositories found</div>
->>>>>>> 9331db9f3bf45e3a61b1c2769017e36490507a72
             </div>
           )}
         </div>
