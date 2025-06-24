@@ -112,16 +112,13 @@ const Index = () => {
 
   return (
     <div className={`h-screen overflow-hidden transition-all duration-500 ${isDarkMode ? 'dark bg-zinc-900' : 'bg-stone-100'}`}>
-      {/* Background */}
       <div className="fixed inset-0 pointer-events-none">
         <div className={`w-full h-full mathematical-wave-particles ${isDarkMode ? 'dark-particles' : 'light-particles'}`}></div>
       </div>
 
-      {/* Container */}
-      <div className="h-screen p-3">
+      <div className="h-full p-3">
         <div className={`h-full border transition-colors duration-500 ${isDarkMode ? 'border-zinc-700 bg-zinc-800/95' : 'border-stone-300 bg-stone-50/95'} backdrop-blur-sm shadow-lg flex flex-col`}>
-          
-          {/* Navigation */}
+
           <div className="flex items-center justify-between p-2 border-b border-opacity-30 border-stone-400 dark:border-zinc-600">
             <nav className="flex-1">
               <ul className="flex flex-wrap gap-1.5 text-xs">
@@ -150,28 +147,26 @@ const Index = () => {
               {isDarkMode ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
             </Button>
           </div>
-
-          {/* Content */}
           <main className="flex-1 p-4 overflow-hidden">
-            <div className="h-full flex items-center">
-              <div className="w-full max-w-md ml-4">
-                {renderContent()}
-              </div>
-            </div>
-          </main>
+  <div className="h-full flex items-center justify-start">
+    <div className="max-w-md text-left ml-4">
+      {renderContent()}
+    </div>
+  </div>
+</main>
 
-          {/* Footer */}
+
           <footer className={`p-2 border-t border-opacity-30 border-stone-400 dark:border-zinc-600 text-xs ${isDarkMode ? 'text-zinc-500' : 'text-stone-500'} flex justify-between items-center`}>
-  <p>Hyderabad, India</p>
-  <a
-    href="/vinithreddybanda.pdf" // Update this path to your resume's actual location
-    target="_blank"
-    rel="noopener noreferrer"
-    className="text-blue-500 hover:underline hover:text-blue-600"
-  >
-    View Resume
-  </a>
-</footer>
+            <p>Hyderabad, India</p>
+            <a
+              href="/vinithreddybanda.pdf"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-blue-500 hover:underline hover:text-blue-600"
+            >
+              View Resume
+            </a>
+          </footer>
 
         </div>
       </div>
