@@ -11,70 +11,60 @@ const Index = () => {
     document.documentElement.classList.toggle('dark');
   };
 
+  const headingStyle = `text-base font-semibold tracking-wide ${isDarkMode ? 'text-zinc-200' : 'text-stone-800'}`;
+  const subheadingStyle = `font-medium text-sm ${isDarkMode ? 'text-zinc-100' : 'text-stone-900'}`;
+  const textStyle = `text-sm leading-snug ${isDarkMode ? 'text-zinc-400' : 'text-stone-600'}`;
+
   const renderContent = () => {
     switch (activeSection) {
       case 'about':
         return (
-          <div className="space-y-2">
-            <h2 className={`text-sm font-semibold tracking-wide ${isDarkMode ? 'text-zinc-200' : 'text-stone-800'}`}>ABOUT</h2>
-            <p className={`text-xs leading-relaxed ${isDarkMode ? 'text-zinc-400' : 'text-stone-600'}`}>
-              Passionate IT student specializing in full-stack development, mobile applications, and emerging technologies.
-            </p>
+          <div className="space-y-1">
+            <h2 className={headingStyle}>ABOUT</h2>
+            <p className={textStyle}>Passionate IT student specializing in full-stack development, mobile applications, and emerging technologies.</p>
           </div>
         );
       case 'education':
         return (
-          <div className="space-y-3">
-            <h2 className={`text-sm font-semibold tracking-wide ${isDarkMode ? 'text-zinc-200' : 'text-stone-800'}`}>EDUCATION</h2>
-            <div className="space-y-2">
-              <div>
-                <h3 className={`font-medium text-sm ${isDarkMode ? 'text-zinc-100' : 'text-stone-900'}`}>CBIT</h3>
-                <p className={`text-xs ${isDarkMode ? 'text-zinc-400' : 'text-stone-600'}`}>B.E IT (2023-Present) CGPA: 8.10</p>
-              </div>
-              <div>
-                <h3 className={`font-medium text-sm ${isDarkMode ? 'text-zinc-100' : 'text-stone-900'}`}>Government Polytechnic</h3>
-                <p className={`text-xs ${isDarkMode ? 'text-zinc-400' : 'text-stone-600'}`}>Diploma CE (2020-2023) CGPA: 9.74</p>
-              </div>
+          <div className="space-y-1">
+            <h2 className={headingStyle}>EDUCATION</h2>
+            <div>
+              <h3 className={subheadingStyle}>CBIT</h3>
+              <p className={textStyle}>B.E IT (2023-Present) CGPA: 8.10</p>
+              <h3 className={subheadingStyle}>Government Polytechnic</h3>
+              <p className={textStyle}>Diploma CE (2020-2023) CGPA: 9.74</p>
             </div>
           </div>
         );
       case 'skills':
         return (
-          <div className="space-y-2">
-            <h2 className={`text-sm font-semibold tracking-wide ${isDarkMode ? 'text-zinc-200' : 'text-stone-800'}`}>SKILLS</h2>
-            <div className="space-y-2 text-xs">
-              <div>
-                <p className={`font-medium ${isDarkMode ? 'text-zinc-100' : 'text-stone-900'}`}>Languages</p>
-                <p className={`${isDarkMode ? 'text-zinc-400' : 'text-stone-600'}`}>C++, Java, Python, Kotlin</p>
-              </div>
-              <div>
-                <p className={`font-medium ${isDarkMode ? 'text-zinc-100' : 'text-stone-900'}`}>Web Development</p>
-                <p className={`${isDarkMode ? 'text-zinc-400' : 'text-stone-600'}`}>Node.js</p>
-              </div>
+          <div className="space-y-1">
+            <h2 className={headingStyle}>SKILLS</h2>
+            <div>
+              <p className={subheadingStyle}>Languages</p>
+              <p className={textStyle}>C++, Java, Python, Kotlin</p>
+              <p className={subheadingStyle}>Web Development</p>
+              <p className={textStyle}>Node.js</p>
             </div>
           </div>
         );
       case 'projects':
         return (
-          <div className="space-y-2">
-            <h2 className={`text-sm font-semibold tracking-wide ${isDarkMode ? 'text-zinc-200' : 'text-stone-800'}`}>PROJECTS</h2>
-            <div className="space-y-2">
-              <div>
-                <h3 className={`font-medium text-sm ${isDarkMode ? 'text-zinc-100' : 'text-stone-900'}`}>Versatile Converter</h3>
-                <p className={`text-xs ${isDarkMode ? 'text-zinc-400' : 'text-stone-600'}`}>Python app with Tesseract OCR</p>
-              </div>
-              <div>
-                <h3 className={`font-medium text-sm ${isDarkMode ? 'text-zinc-100' : 'text-stone-900'}`}>Student Dashboard</h3>
-                <p className={`text-xs ${isDarkMode ? 'text-zinc-400' : 'text-stone-600'}`}>Node.js platform with Chart.js</p>
-              </div>
+          <div className="space-y-1">
+            <h2 className={headingStyle}>PROJECTS</h2>
+            <div>
+              <h3 className={subheadingStyle}>Versatile Converter</h3>
+              <p className={textStyle}>Python app with Tesseract OCR</p>
+              <h3 className={subheadingStyle}>Student Dashboard</h3>
+              <p className={textStyle}>Node.js platform with Chart.js</p>
             </div>
           </div>
         );
       case 'certifications':
         return (
-          <div className="space-y-2">
-            <h2 className={`text-sm font-semibold tracking-wide ${isDarkMode ? 'text-zinc-200' : 'text-stone-800'}`}>CERTIFICATIONS</h2>
-            <div className={`space-y-1 text-xs ${isDarkMode ? 'text-zinc-400' : 'text-stone-600'}`}>
+          <div className="space-y-1">
+            <h2 className={headingStyle}>CERTIFICATIONS</h2>
+            <div className={textStyle}>
               <p>• MongoDB Node.js</p>
               <p>• Web Development 101</p>
             </div>
@@ -82,9 +72,9 @@ const Index = () => {
         );
       case 'contact':
         return (
-          <div className="space-y-2">
-            <h2 className={`text-sm font-semibold tracking-wide ${isDarkMode ? 'text-zinc-200' : 'text-stone-800'}`}>CONTACT</h2>
-            <div className={`space-y-1 text-xs ${isDarkMode ? 'text-zinc-400' : 'text-stone-600'}`}>
+          <div className="space-y-1">
+            <h2 className={headingStyle}>CONTACT</h2>
+            <div className={textStyle}>
               <p>vinithreddybanda@gmail.com</p>
               <p>linkedin.com/vinithreddybanda</p>
             </div>
@@ -92,16 +82,12 @@ const Index = () => {
         );
       default:
         return (
-          <div className="space-y-3">
+          <div className="space-y-2">
             <div>
-              <h1 className={`text-lg font-bold tracking-wide ${isDarkMode ? 'text-zinc-100' : 'text-stone-800'}`}>
-                VINITH REDDY BANDA
-              </h1>
-              <p className={`text-xs ${isDarkMode ? 'text-zinc-400' : 'text-stone-600'}`}>
-                Information Technology Student & Developer
-              </p>
+              <h1 className={`text-lg font-bold tracking-wide ${isDarkMode ? 'text-zinc-100' : 'text-stone-800'}`}>VINITH REDDY BANDA</h1>
+              <p className={textStyle}>Information Technology Student & Developer</p>
             </div>
-            <div className={`text-xs ${isDarkMode ? 'text-zinc-400' : 'text-stone-600'}`}>
+            <div className={textStyle}>
               <p>Passionate about creating innovative solutions</p>
               <p>Currently pursuing B.E in IT at CBIT</p>
             </div>
@@ -113,15 +99,16 @@ const Index = () => {
   return (
     <div className={`h-screen overflow-hidden transition-all duration-500 ${isDarkMode ? 'dark bg-zinc-900' : 'bg-stone-100'}`}>
       <div className="fixed inset-0 pointer-events-none">
-        <div className={`w-full h-full mathematical-wave-particles ${isDarkMode ? 'dark-particles' : 'light-particles'}`}></div>
+        <div className={`w-full h-full mathematical-wave-particles ${isDarkMode ? 'dark-particles' : 'light-particles'}`} />
       </div>
 
-      <div className="h-full p-3">
+      <div className="h-full p-2">
         <div className={`h-full border transition-colors duration-500 ${isDarkMode ? 'border-zinc-700 bg-zinc-800/95' : 'border-stone-300 bg-stone-50/95'} backdrop-blur-sm shadow-lg flex flex-col`}>
 
-          <div className="flex items-center justify-between p-2 border-b border-opacity-30 border-stone-400 dark:border-zinc-600">
+          {/* Nav */}
+          <div className="flex items-center justify-between px-2 py-1 border-b border-opacity-30 border-stone-400 dark:border-zinc-600">
             <nav className="flex-1">
-              <ul className="flex flex-wrap gap-1.5 text-xs">
+              <ul className="flex flex-wrap gap-1 text-sm">
                 {['.', 'about', 'education', 'skills', 'projects', 'certifications', 'contact'].map((item) => (
                   <li key={item}>
                     <button
@@ -147,16 +134,18 @@ const Index = () => {
               {isDarkMode ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
             </Button>
           </div>
-          <main className="flex-1 p-4 overflow-hidden">
-  <div className="h-full flex items-center justify-start">
-    <div className="max-w-md text-left ml-4">
-      {renderContent()}
-    </div>
-  </div>
-</main>
 
+          {/* Content */}
+          <main className="flex-1 p-4">
+            <div className="h-full flex items-center justify-start">
+              <div className="w-full max-w-md text-left">
+                {renderContent()}
+              </div>
+            </div>
+          </main>
 
-          <footer className={`p-2 border-t border-opacity-30 border-stone-400 dark:border-zinc-600 text-xs ${isDarkMode ? 'text-zinc-500' : 'text-stone-500'} flex justify-between items-center`}>
+          {/* Footer */}
+          <footer className={`px-2 py-1 border-t border-opacity-30 border-stone-400 dark:border-zinc-600 text-sm ${isDarkMode ? 'text-zinc-500' : 'text-stone-500'} flex justify-between items-center`}>
             <p>Hyderabad, India</p>
             <a
               href="/vinithreddybanda.pdf"
