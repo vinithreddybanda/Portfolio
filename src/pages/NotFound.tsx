@@ -1,34 +1,37 @@
-import { useLocation, Link } from "react-router-dom";
-import { useEffect } from "react";
+// 404.tsx or Index.tsx or wherever you want particles
+import { useState } from 'react';
+import { Moon, Sun } from 'lucide-react';
+import { Button } from '@/components/ui/button';
 
-const NotFound = () => {
-  const location = useLocation();
+const Index = () => {
+  const [isDarkMode, setIsDarkMode] = useState(false);
 
-  useEffect(() => {
-    console.error(
-      "404 Error: User attempted to access non-existent route:",
-      location.pathname
-    );
-  }, [location.pathname]);
+  const toggleTheme = () => {
+    setIsDarkMode(!isDarkMode);
+    document.documentElement.classList.toggle('dark');
+  };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100 px-4">
-      <div className="text-center">
-        <h1 className="text-6xl font-extrabold text-red-500 mb-4">404</h1>
-        <p className="text-2xl font-semibold text-gray-800 mb-2">Page Not Found</p>
-        <p className="text-gray-600 mb-6">
-          Sorry, we couldn’t find the page you were looking for.
+    <div className="relative h-screen w-full overflow-hidden bg-background text-foreground">
+      {/* Particle Layer */}
+      <div
+        className={`absolute inset-0 w-full h-full pointer-events-none mathematical-wave-particles ${
+          isDarkMode ? 'dark-particles' : 'light-particles'
+        } z-0`}
+      />
+
+      {/* Content Layer */}
+      <div className="relative z-10 flex flex-col items-center justify-center h-full gap-4">
+        <h1 className="text-4xl font-bold">404 - Page Not Found</h1>
+        <p className="text-lg text-muted-foreground">
+          Oops! The page you’re looking for doesn’t exist.
         </p>
-        <Link
-          to="/"
-          className="inline-block px-6 py-3 bg-blue-600 text-white font-medium rounded hover:bg-blue-700 transition"
-          aria-label="Return to Home Page"
-        >
-          Go Back Home
-        </Link>
+        <Button onClick={toggleTheme} className="mt-4">
+          {isDarkMode ? <Sun size={20} /> : <Moon size={20} />} Toggle Theme
+        </Button>
       </div>
     </div>
   );
 };
 
-export default NotFound;
+export default Index;

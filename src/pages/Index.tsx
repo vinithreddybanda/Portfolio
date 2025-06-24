@@ -85,7 +85,6 @@ const Index = () => {
           <div className="space-y-2">
             <h2 className={`text-sm font-semibold tracking-wide ${isDarkMode ? 'text-zinc-200' : 'text-stone-800'}`}>CONTACT</h2>
             <div className={`space-y-1 text-xs ${isDarkMode ? 'text-zinc-400' : 'text-stone-600'}`}>
-              <p>+91 7702608995</p>
               <p>vinithreddybanda@gmail.com</p>
               <p>linkedin.com/vinithreddybanda</p>
             </div>
@@ -165,7 +164,7 @@ const Index = () => {
           <footer className={`p-2 border-t border-opacity-30 border-stone-400 dark:border-zinc-600 text-xs ${isDarkMode ? 'text-zinc-500' : 'text-stone-500'} flex justify-between items-center`}>
   <p>Hyderabad, India</p>
   <a
-    href="/resume.pdf" // Update this path to your resume's actual location
+    href="\src\pages\vinithreddybanda.pdf" // Update this path to your resume's actual location
     target="_blank"
     rel="noopener noreferrer"
     className="text-blue-500 hover:underline hover:text-blue-600"
