@@ -32,7 +32,6 @@ export async function GET() {
     res.headers.set("Expires", "0")
     res.headers.set("Surrogate-Control", "no-store")
     return res
-
   } catch (error) {
     console.error("Error fetching GitHub repos:", error)
     return NextResponse.json({ error: "Failed to fetch repositories" }, { status: 500 })
