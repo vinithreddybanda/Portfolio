@@ -164,7 +164,7 @@ const Index = () => {
           <footer className={`p-2 border-t border-opacity-30 border-stone-400 dark:border-zinc-600 text-xs ${isDarkMode ? 'text-zinc-500' : 'text-stone-500'} flex justify-between items-center`}>
   <p>Hyderabad, India</p>
   <a
-    href="/src/pages/vinithreddybanda.pdf" // Update this path to your resume's actual location
+    href="/vinithreddybanda.pdf" // Update this path to your resume's actual location
     target="_blank"
     rel="noopener noreferrer"
     className="text-blue-500 hover:underline hover:text-blue-600"
